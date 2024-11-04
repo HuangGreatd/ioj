@@ -8,13 +8,13 @@ import com.juzipi.ioj.judge.condesandbox.CodeSandboxFactory;
 import com.juzipi.ioj.judge.condesandbox.CodeSandboxProxy;
 import com.juzipi.ioj.judge.condesandbox.model.ExecuteCodeRequest;
 import com.juzipi.ioj.judge.condesandbox.model.ExecuteCodeResponse;
+import com.juzipi.ioj.judge.strategy.DefaultJudgeStrategy;
+import com.juzipi.ioj.judge.strategy.JudgeContext;
 import com.juzipi.ioj.model.dto.question.JudgeCase;
-import com.juzipi.ioj.model.dto.question.JudgeConfig;
 import com.juzipi.ioj.model.dto.questionsubmit.JudgeInfo;
 import com.juzipi.ioj.model.entity.Question;
 import com.juzipi.ioj.model.entity.QuestionSubmit;
 import com.juzipi.ioj.model.enums.JudgeInfoMessageEnum;
-import com.juzipi.ioj.model.enums.QuestionSubmitLanguageEnum;
 import com.juzipi.ioj.model.enums.QuestionSubmitStatusEnum;
 import com.juzipi.ioj.service.QuestionService;
 import com.juzipi.ioj.service.QuestionSubmitService;
@@ -22,7 +22,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
-import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -85,45 +84,19 @@ public class JudgeServiceImpl implements JudgeService {
         List<String> outputList = executeCodeResponse.getOutputList();
         // 5）根据沙箱的执行结果，设置题目的判题状态和信息
         JudgeInfoMessageEnum judgeInfoMessageEnum = JudgeInfoMessageEnum.WAITING;
-        //判断输出数量和预期输出数量是否相等
-        if (outputList.size() != inputList.size()) {
-            judgeInfoMessageEnum = JudgeInfoMessageEnum.WRONG_ANSWER;
-            return null;
-        }
-        //依次判断每一项输出和预期输出是否相等
-        for (int i = 0; i < judgeCaseList.size(); i++) {
-            JudgeCase judgeCase = judgeCaseList.get(i);
-            if (!judgeCase.getOutput().equals(outputList.get(i))) {
-                judgeInfoMessageEnum = JudgeInfoMessageEnum.WRONG_ANSWER;
-                return null;
-            }
-        }
-        //判断题目限制
-        JudgeInfo judgeInfo = executeCodeResponse.getJudgeInfo();
-        String message = judgeInfo.getMessage();
-        Long memory = judgeInfo.getMemory();
-        Long time = judgeInfo.getTime();
-        String judgeConfigStr = question.getJudgeConfig();
-        JudgeConfig judgeConfig = JSONUtil.toBean(judgeConfigStr, JudgeConfig.class);
-        Long needMemoryLimit = judgeConfig.getMemoryLimit();
-        Long needStackLimit = judgeConfig.getStackLimit();
-        Long needTimeLimit = judgeConfig.getTimeLimit();
-        if (memory > needMemoryLimit) {
-            judgeInfoMessageEnum = JudgeInfoMessageEnum.WRONG_ANSWER;
-            return null;
-        }
-        if (time > needTimeLimit) {
-            judgeInfoMessageEnum = JudgeInfoMessageEnum.WRONG_ANSWER;
-            return null;
-        }
-//        JudgeContext judgeContext = new JudgeContext();
-//        judgeContext.setJudgeInfo(executeCodeResponse.getJudgeInfo());
-//        judgeContext.setInputList(inputList);
-//        judgeContext.setOutputList(outputList);
-//        judgeContext.setJudgeCaseList(judgeCaseList);
-//        judgeContext.setQuestion(question);
-//        judgeContext.setQuestionSubmit(questionSubmit);
+
+        JudgeContext judgeContext = new JudgeContext();
+        judgeContext.setJudgeInfo(executeCodeResponse.getJudgeInfo());
+        judgeContext.setInputList(inputList);
+        judgeContext.setOutputList(outputList);
+        judgeContext.setJudgeCaseList(judgeCaseList);
+        judgeContext.setQuestion(question);
+        judgeContext.setQuestionSubmit(questionSubmit);
+        //策略模式使用
+        DefaultJudgeStrategy judgeStrategy = new DefaultJudgeStrategy();
+        JudgeInfo judgeInfo = judgeStrategy.doJudge(judgeContext);
 //        JudgeInfo judgeInfo = judgeManager.doJudge(judgeContext);
+
         // 6）修改数据库中的判题结果
         questionSubmitUpdate = new QuestionSubmit();
         questionSubmitUpdate.setId(questionSubmitId);
