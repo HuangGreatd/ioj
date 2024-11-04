@@ -7,6 +7,8 @@ import com.baomidou.mybatisplus.annotation.TableLogic;
 import com.baomidou.mybatisplus.annotation.TableName;
 import java.io.Serializable;
 import java.util.Date;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 
 /**
@@ -67,11 +69,13 @@ public class User implements Serializable {
     /**
      * 创建时间
      */
+   @JsonFormat(pattern = "yyyy年-MM月-dd日 HH:mm:ss", timezone = "GMT+8")
     private Date createTime;
 
     /**
      * 更新时间
      */
+   @JsonFormat(pattern = "yyyy年-MM月-dd日 HH:mm:ss", timezone = "GMT+8")
     private Date updateTime;
 
     /**

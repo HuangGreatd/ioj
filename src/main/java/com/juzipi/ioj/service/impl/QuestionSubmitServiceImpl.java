@@ -13,6 +13,8 @@ import com.juzipi.ioj.model.dto.questionsubmit.QuestionSubmitQueryRequest;
 import com.juzipi.ioj.model.entity.Question;
 import com.juzipi.ioj.model.entity.QuestionSubmit;
 import com.juzipi.ioj.model.entity.User;
+import com.juzipi.ioj.model.enums.QuestionSubmitLanguageEnum;
+import com.juzipi.ioj.model.enums.QuestionSubmitStatusEnum;
 import com.juzipi.ioj.model.vo.QuestionSubmitVO;
 import com.juzipi.ioj.service.QuestionService;
 import com.juzipi.ioj.service.QuestionSubmitService;
