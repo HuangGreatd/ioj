@@ -10,6 +10,7 @@ import com.juzipi.ioj.judge.condesandbox.model.ExecuteCodeRequest;
 import com.juzipi.ioj.judge.condesandbox.model.ExecuteCodeResponse;
 import com.juzipi.ioj.judge.strategy.DefaultJudgeStrategy;
 import com.juzipi.ioj.judge.strategy.JudgeContext;
+import com.juzipi.ioj.judge.strategy.JudgeManager;
 import com.juzipi.ioj.model.dto.question.JudgeCase;
 import com.juzipi.ioj.model.dto.questionsubmit.JudgeInfo;
 import com.juzipi.ioj.model.entity.Question;
@@ -42,6 +43,9 @@ public class JudgeServiceImpl implements JudgeService {
 
     @Value("${codesandbox.type:remote}")
     private String type;
+
+    @Resource
+    private JudgeManager judgeManager;
 
     @Override
     public QuestionSubmit doJudge(long questionSubmitId) {
@@ -92,10 +96,10 @@ public class JudgeServiceImpl implements JudgeService {
         judgeContext.setJudgeCaseList(judgeCaseList);
         judgeContext.setQuestion(question);
         judgeContext.setQuestionSubmit(questionSubmit);
-        //策略模式使用
-        DefaultJudgeStrategy judgeStrategy = new DefaultJudgeStrategy();
-        JudgeInfo judgeInfo = judgeStrategy.doJudge(judgeContext);
-//        JudgeInfo judgeInfo = judgeManager.doJudge(judgeContext);
+        //todo 策略模式使用 问题：怎么切换别的策略
+//        DefaultJudgeStrategy judgeStrategy = new DefaultJudgeStrategy();
+//        JudgeInfo judgeInfo = judgeStrategy.doJudge(judgeContext);
+        JudgeInfo judgeInfo = judgeManager.doJudge(judgeContext);
 
         // 6）修改数据库中的判题结果
         questionSubmitUpdate = new QuestionSubmit();
