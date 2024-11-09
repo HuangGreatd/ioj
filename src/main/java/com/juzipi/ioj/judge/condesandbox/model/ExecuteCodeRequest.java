@@ -1,8 +1,5 @@
 package com.juzipi.ioj.judge.condesandbox.model;
 
-import com.juzipi.ioj.model.dto.question.JudgeConfig;
-import com.juzipi.ioj.model.dto.questionsubmit.JudgeInfo;
-import io.swagger.models.auth.In;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

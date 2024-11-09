@@ -1,6 +1,6 @@
 package com.juzipi.ioj.judge.strategy;
 
-import com.juzipi.ioj.model.dto.questionsubmit.JudgeInfo;
+import com.juzipi.ioj.judge.condesandbox.model.JudgeInfo;
 import com.juzipi.ioj.model.entity.QuestionSubmit;
 import com.juzipi.ioj.model.enums.QuestionSubmitLanguageEnum;
 import org.springframework.stereotype.Service;

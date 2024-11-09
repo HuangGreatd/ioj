@@ -1,7 +1,7 @@
 package com.juzipi.ioj.model.vo;
 
 import cn.hutool.json.JSONUtil;
-import com.juzipi.ioj.model.dto.questionsubmit.JudgeInfo;
+import com.juzipi.ioj.judge.condesandbox.model.JudgeInfo;
 import com.juzipi.ioj.model.entity.QuestionSubmit;
 import lombok.Data;
 import org.springframework.beans.BeanUtils;

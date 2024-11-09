@@ -3,7 +3,7 @@ package com.juzipi.ioj.judge.condesandbox.impl;
 import com.juzipi.ioj.judge.condesandbox.CodeSandbox;
 import com.juzipi.ioj.judge.condesandbox.model.ExecuteCodeRequest;
 import com.juzipi.ioj.judge.condesandbox.model.ExecuteCodeResponse;
-import com.juzipi.ioj.model.dto.questionsubmit.JudgeInfo;
+import com.juzipi.ioj.judge.condesandbox.model.JudgeInfo;
 import com.juzipi.ioj.model.enums.JudgeInfoMessageEnum;
 import com.juzipi.ioj.model.enums.QuestionSubmitStatusEnum;
 import lombok.extern.slf4j.Slf4j;

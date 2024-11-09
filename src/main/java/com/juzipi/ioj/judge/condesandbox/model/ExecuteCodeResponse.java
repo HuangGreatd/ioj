@@ -1,6 +1,5 @@
 package com.juzipi.ioj.judge.condesandbox.model;
 
-import com.juzipi.ioj.model.dto.questionsubmit.JudgeInfo;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

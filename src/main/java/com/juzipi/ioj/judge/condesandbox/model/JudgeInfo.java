@@ -1,4 +1,4 @@
-package com.juzipi.ioj.model.dto.questionsubmit;
+package com.juzipi.ioj.judge.condesandbox.model;
 
 import lombok.Data;
 
