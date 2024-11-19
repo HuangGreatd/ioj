@@ -46,6 +46,7 @@ public class JudgeServiceImpl implements JudgeService {
     @Resource
     private JudgeManager judgeManager;
 
+
     @Override
     public QuestionSubmit doJudge(long questionSubmitId) {
         QuestionSubmit questionSubmit = questionSubmitService.getById(questionSubmitId);

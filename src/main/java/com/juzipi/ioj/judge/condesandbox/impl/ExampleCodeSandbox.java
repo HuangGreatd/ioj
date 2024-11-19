@@ -7,6 +7,7 @@ import com.juzipi.ioj.judge.condesandbox.model.JudgeInfo;
 import com.juzipi.ioj.model.enums.JudgeInfoMessageEnum;
 import com.juzipi.ioj.model.enums.QuestionSubmitStatusEnum;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
 

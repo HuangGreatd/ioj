@@ -4,6 +4,8 @@ import com.juzipi.ioj.judge.condesandbox.CodeSandbox;
 import com.juzipi.ioj.judge.condesandbox.model.ExecuteCodeRequest;
 import com.juzipi.ioj.judge.condesandbox.model.ExecuteCodeResponse;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
 
 /**
  * @ClassName: ExampleCodeSandbox
@@ -14,8 +16,13 @@ import lombok.extern.slf4j.Slf4j;
  **/
 @Slf4j
 public class ThridPartyCodeSandbox implements CodeSandbox {
+
+    @Value("${auth.request.header}")
+    private String AUTH_REQUEST_HEADER;
     @Override
     public ExecuteCodeResponse executeCode(ExecuteCodeRequest executeCodeRequest) {
+        System.out.println("AUTH_REQUEST_HEADER = " + AUTH_REQUEST_HEADER);
+
         log.info("执行代码请求参数：{}", executeCodeRequest);
         System.out.println("调用第三方代码沙箱");
         return null;

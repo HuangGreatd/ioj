@@ -7,6 +7,7 @@ import com.juzipi.ioj.exception.BusinessException;
 import com.juzipi.ioj.judge.condesandbox.CodeSandbox;
 import com.juzipi.ioj.judge.condesandbox.model.ExecuteCodeRequest;
 import com.juzipi.ioj.judge.condesandbox.model.ExecuteCodeResponse;
+import com.juzipi.ioj.model.enums.QuestionSubmitLanguageEnum;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 
@@ -19,22 +20,37 @@ import org.apache.commons.lang3.StringUtils;
  **/
 @Slf4j
 public class RemoteCodeSandbox implements CodeSandbox {
-    // 定义鉴权请求头和密钥
-    private static final String AUTH_REQUEST_HEADER = "auth";
 
-    private static final String AUTH_REQUEST_SECRET = "secretKey";
+
+    // 定义鉴权请求头和密钥
+    private String AUTH_REQUEST_HEADER = "auth";
+    private String AUTH_REQUEST_SECRET = "sercretKey";
+
+    //    @Value("${codeSandbox.remote.javaurl}")
+    private String JAVA_URL = "http://192.168.112.128:8089/executeCode/java";
+
+    //    @Value("${codeSandbox.remote.pythonurl}")
+    private String PYTHON_URL = "http://192.168.112.128:8089/executeCode/python";
 
 
     @Override
     public ExecuteCodeResponse executeCode(ExecuteCodeRequest executeCodeRequest) {
-        System.out.println("远程代码沙箱");
-        String url = "http://192.168.112.128:8089/executeCode";
         String json = JSONUtil.toJsonStr(executeCodeRequest);
-        String responseStr = HttpUtil.createPost(url)
-                .header(AUTH_REQUEST_HEADER, AUTH_REQUEST_SECRET)
-                .body(json)
-                .execute()
-                .body();
+        String responseStr = null;
+        if (executeCodeRequest.getLanguage().equals(QuestionSubmitLanguageEnum.JAVA.getValue())) {
+            responseStr = HttpUtil.createPost(JAVA_URL)
+                    .header(AUTH_REQUEST_HEADER, AUTH_REQUEST_SECRET)
+                    .body(json)
+                    .execute()
+                    .body();
+        }
+        if (executeCodeRequest.getLanguage().equals(QuestionSubmitLanguageEnum.PYTHON.getValue())){
+            responseStr = HttpUtil.createPost(PYTHON_URL)
+                    .header(AUTH_REQUEST_HEADER, AUTH_REQUEST_SECRET)
+                    .body(json)
+                    .execute()
+                    .body();
+        }
         if (StringUtils.isBlank(responseStr)) {
             throw new BusinessException(ErrorCode.API_REQUEST_ERROR, "executeCode remoteSandbox error, message = " + responseStr);
         }

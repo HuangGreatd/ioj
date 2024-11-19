@@ -4,6 +4,7 @@ import com.juzipi.ioj.judge.condesandbox.impl.ExampleCodeSandbox;
 import com.juzipi.ioj.judge.condesandbox.impl.RemoteCodeSandbox;
 import com.juzipi.ioj.judge.condesandbox.impl.ThridPartyCodeSandbox;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
 
 /**
  * @ClassName: CodeSandboxFactory
@@ -14,8 +15,6 @@ import org.springframework.beans.factory.annotation.Value;
  **/
 public class CodeSandboxFactory {
 
-    @Value("${codeSandbox.value.type}}")
-    private String type;
     /**
      * 创建代码沙箱示例 静态工厂模式
      * @param type
